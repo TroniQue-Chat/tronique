@@ -22,14 +22,12 @@ import "../styles/chatscreen.css"
 
 type ChatscreenProps = {
   generateQuestions: () => Promise<AxiosResponse<any, any>>;
-  generateSQL: (question: string) => Promise<SQLResponse>;
-  runSQL: (sql: string) => Promise<RUNResponse>;
+  generateAndRunSQL: (question: string) => Promise<RUNResponse>;
 };
 
 const Chatscreen: React.FC<ChatscreenProps> = ({
   generateQuestions,
-  generateSQL,
-  runSQL,
+  generateAndRunSQL
 }: Readonly<ChatscreenProps>) => {
   const [message, setMessage] = useState<string>("");
 
@@ -87,18 +85,10 @@ const Chatscreen: React.FC<ChatscreenProps> = ({
 
       handleChangeMessageHistory(newMessage);
 
-      const aiRes = await generateSQL(msg);
+      const aiRes = await generateAndRunSQL(msg);
+      const { df } = aiRes;
 
-      if (
-        aiRes?.text === "No SELECT statement could be found in the SQL code"
-      ) {
-        newMessage = {
-          ai: aiRes?.text,
-          user: "",
-          messageId: uuidv4(),
-          type: MESSAGE_TYPES.error,
-        };
-      } else if ("error" in aiRes) {
+      if ("error" in aiRes) {
         newMessage = {
           ai: aiRes?.error as string,
           user: "",
@@ -107,10 +97,10 @@ const Chatscreen: React.FC<ChatscreenProps> = ({
         };
       } else {
         newMessage = {
-          ai: aiRes?.text,
+          ai: df,
           user: "",
           messageId: uuidv4(),
-          type: MESSAGE_TYPES.sql,
+          type: MESSAGE_TYPES.df,
         };
       }
 
@@ -119,7 +109,7 @@ const Chatscreen: React.FC<ChatscreenProps> = ({
       console.error("Failed to handle send:", error);
       // Handle the error state appropriately
     }
-  }, [message, handleChangeMessageHistory, generateSQL]); // Dependencies
+  }, [message, handleChangeMessageHistory, generateAndRunSQL]); // Dependencies
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>): void => {
     if (event.key === "Enter" && !disabled) {
@@ -133,11 +123,11 @@ const Chatscreen: React.FC<ChatscreenProps> = ({
       {messageHistory?.length === 1 ? (
         <Homescreen
           questions={generatedQuestions as TQuestions}
-          generateSQL={generateSQL}
+          generateAndRunSQL={generateAndRunSQL}
           loading={loading}
         />
       ) : (
-        <MessageHistory runSQL={runSQL} />
+        <MessageHistory runSQL={generateAndRunSQL} />
       )}
 
       <div className={`z-10 fixed bottom-0 pl-10 pr-4 py-2 mt-2 rounded-full m-8 bg-[#231E1E]

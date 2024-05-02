@@ -14,8 +14,7 @@ CORS(app, resources={r"/api/*": {"origins": "*"}})
 vannakey = os.environ.get("VANNA_API_KEY")
 model = os.environ.get("VANNA_MODEL")
 vn = VannaDefault(model=model, api_key=vannakey)
-vn.connect_to_sqlite('D:/TroniQue/tronique/TronData')
-
+vn.connect_to_sqlite('D:/TroniQue/tronique/database/TronForumData')
 
 @app.route("/api/v1/generate_questions", methods=["GET"])
 def generate_questions():
@@ -65,31 +64,17 @@ def download_csv():
     )
 
 
-@app.route("/api/v1/get_training_data", methods=["GET"])
-def get_training_data():
-    df = vn.get_training_data()
-
-    print(df, file=sys.stderr)
-    return jsonify(
-        {
-            "type": "df",
-            "id": "training_data",
-            "df": df.head(25).to_json(orient="records"),
-        }
-    )
-
-
-@app.route("/api/v1/remove_training_data", methods=["POST"])
-def remove_training_data():
-    data = request.get_json()
-    new_id = data.get("id")
-    if new_id is None:
-        return jsonify({"type": "error", "error": "No id provided"})
-    # Placeholder logic, replace with actual call to remove training data
-    if vn.remove_training_data(id=new_id):
-        return jsonify({"success": True})
-    else:
-        return jsonify({"type": "error", "error": "Couldn't remove training data"})
+@app.route("/api/v1/generate_and_run_sql", methods=["GET"])
+def generate_and_run_sql():
+    question = request.args.get("question")
+    if question is None:
+        return jsonify({"type": "error", "error": "No question provided"})
+    try:
+        sql = vn.generate_sql(question=question)
+        df = vn.run_sql(sql=sql)
+        return jsonify({"type": "df", "df": df.head(10).to_json(orient="records")})
+    except Exception as e:
+        return jsonify({"type": "error", "error": str(e)})
 
 
 @app.route("/api/v1/train", methods=["POST"])

@@ -9,12 +9,11 @@ import ContextProvider from "@/context/ContextProvider";
 
 type FunctionProps = {
   generateQuestions: () => Promise<AxiosResponse<any, any>>;
-  generateSQL: (question: string) => Promise<SQLResponse>;
-  runSQL: (sql: string) => Promise<RUNResponse>;
+  generateAndRunSQL: (question: string) => Promise<RUNResponse>;
 };
 
 const Dashboard: React.FC<FunctionProps> = (props: FunctionProps) => {
-  const { generateQuestions, generateSQL, runSQL } = props;
+  const { generateQuestions, generateAndRunSQL } = props;
 
   return (
     <ContextProvider>
@@ -22,8 +21,7 @@ const Dashboard: React.FC<FunctionProps> = (props: FunctionProps) => {
         <Sidebar />
         <Chatscreen
           generateQuestions={generateQuestions}
-          generateSQL={generateSQL}
-          runSQL={runSQL}
+          generateAndRunSQL={generateAndRunSQL}
         />
       </main>
     </ContextProvider>

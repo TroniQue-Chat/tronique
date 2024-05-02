@@ -1,6 +1,5 @@
 import React from "react";
-import Image from "next/image";
-import { SQLResponse, TMessage, TQuestions } from "@/helpers/types";
+import { RUNResponse, TMessage, TQuestions } from "@/helpers/types";
 import { v4 as uuidv4 } from "uuid";
 import { MESSAGE_TYPES } from "@/helpers/enums";
 import { useRoot } from "@/context/ContextProvider";
@@ -10,11 +9,11 @@ import { HiOutlineArrowCircleUp } from "react-icons/hi";
 
 type HomescreenProps = {
   questions: TQuestions;
-  generateSQL: (question: string) => Promise<SQLResponse>;
+  generateAndRunSQL: (question: string) => Promise<RUNResponse>;
   loading: boolean;
 };
 const Homescreen = (props: HomescreenProps) => {
-  const { questions, generateSQL, loading } = props;
+  const { questions, generateAndRunSQL, loading } = props;
 
   const { handleChangeMessageHistory } = useRoot();
 
@@ -28,14 +27,14 @@ const Homescreen = (props: HomescreenProps) => {
       };
       handleChangeMessageHistory(newMessage);
 
-      let SQL = await generateSQL(value);
+      let aiRes = await generateAndRunSQL(value);
 
-      const { text } = SQL;
+      const { df } = aiRes;
       newMessage = {
-        ai: text,
+        ai: df, // Assuming df is the text to display
         user: "",
         messageId: uuidv4(),
-        type: MESSAGE_TYPES.sql,
+        type: MESSAGE_TYPES.df,
       };
 
       handleChangeMessageHistory(newMessage);

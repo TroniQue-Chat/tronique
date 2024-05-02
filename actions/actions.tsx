@@ -18,6 +18,21 @@ export async function generateSQL(question: string) {
   return response.data;
 }
 
+export async function generateAndRunSQL(question: string) {
+  const response = await axios.get(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/generate_and_run_sql`,
+    {
+      params: { question },
+      headers:
+      {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  console.log("run", response.data);
+  return response.data;
+}
+
 export async function runSQL(sql: string) {
   const response = await axios.post(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/run_sql`,
