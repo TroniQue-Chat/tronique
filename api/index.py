@@ -14,7 +14,7 @@ CORS(app, resources={r"/api/*": {"origins": "*"}})
 vannakey = os.environ.get("VANNA_API_KEY")
 model = os.environ.get("VANNA_MODEL")
 vn = VannaDefault(model=model, api_key=vannakey)
-vn.connect_to_sqlite('D:/Vanna Demo/TronData')
+vn.connect_to_sqlite('D:/TroniQue/tronique/TronData')
 
 
 @app.route("/api/v1/generate_questions", methods=["GET"])
