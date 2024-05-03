@@ -1,10 +1,8 @@
-import Dashboard from "@/pages/Dashboard";
-import { generateQuestions, generateAndRunSQL } from "@/actions/actions";
+import Main from "@/pages/Main";
 export default async function Home() {
   return (
-    <Dashboard
-      generateQuestions={generateQuestions}
-      generateAndRunSQL={generateAndRunSQL}
-    />
+    <>
+    <Main/>
+    </>
   );
 }

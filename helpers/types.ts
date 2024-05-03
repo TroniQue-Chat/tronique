@@ -20,3 +20,9 @@ export type TQuestions = {
   questions: Array<string>;
   type: string;
 };
+
+export type PlotlyFigure = {
+  fig: string;
+  plotly_figure: string;
+  type: string;
+};

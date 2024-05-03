@@ -63,6 +63,30 @@ def download_csv():
         headers={"Content-disposition": "attachment; filename=data.csv"},
     )
 
+@app.route('/api/v1/generate_plotly_figure', methods=['GET'])
+def generate_plotly_figure():
+    question = request.args.get('question')
+    sql = vn.generate_sql(question=question)
+    df = vn.run_sql(sql=sql)
+
+    try:
+        code = vn.generate_plotly_code(question=question, sql=sql, df_metadata=f"Running df.dtypes gives:\n {df.dtypes}")
+        fig = vn.get_plotly_figure(plotly_code=code, df=df, dark_mode=False)
+        fig_json = fig.to_json()
+
+        return jsonify(
+            {
+                "type": "plotly_figure", 
+                "question": question,
+                "fig": fig_json,
+            })
+    except Exception as e:
+        # Print the stack trace
+        import traceback
+        traceback.print_exc()
+
+        return jsonify({"type": "error", "error": str(e)})
+
 
 @app.route("/api/v1/generate_and_run_sql", methods=["GET"])
 def generate_and_run_sql():

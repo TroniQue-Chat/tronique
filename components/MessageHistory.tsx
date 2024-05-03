@@ -5,6 +5,7 @@ import { TMessage, RUNResponse } from "@/helpers/types";
 import { MESSAGE_TYPES, MODES } from "@/helpers/enums";
 import { v4 as uuidV4 } from "uuid";
 import Table from "./Table";
+import Visualizations from "./Visualizations";
 import { useRoot } from "@/context/ContextProvider";
 import ChatButtons from "./ChatButtons";
 import useChatScroll from "./ChatScroll";

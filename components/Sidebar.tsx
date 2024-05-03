@@ -1,4 +1,4 @@
-
+'use client'
 import { useRoot } from "@/context/ContextProvider";
 import React from "react";
 import { MdOutlineMenu } from "react-icons/md";
@@ -10,8 +10,12 @@ import { FaClockRotateLeft } from "react-icons/fa6";
 import icon from "../public/icon.svg"
 import Image from "next/image";
 import logo from "../public/logo.png"
+import { Switch, Route, useHistory, useLocation } from "react-router-dom";
+
+
 
 export default function Sidebar() {
+  const history = useHistory();
   const { showSideBar, handleShowSideBar } = useRoot();
   const handleShow = () => {
     handleShowSideBar(!showSideBar);
@@ -52,16 +56,24 @@ export default function Sidebar() {
 
       <div className="flex justify-center items-center flex-col">
       <button
-          className="p-2 my-0 mx-auto w-[100%]">
-          <HiPlusSm className={`hover:bg-white border transition-colors text-purple-600 rounded-lg text-3xl text-center mx-auto ${showSideBar ? "w-[80%]" : "w-[35%]"}`} />
+          className="p-2 mx-auto my-1 mx-2 w-[70%] border transition-colors text-purple-200 rounded-lg text-md text-center"
+          onClick={()=> history.push('/forum')}
+          >
+          
+          Forum Data
       </button>
       <button
-          className="p-2 my-0 mx-2 w-[100%]">
-          <HiPlusSm className={`hover:bg-white border text-purple-600 rounded-lg text-3xl text-center mx-auto ${showSideBar ? "w-[80%]" : "w-[35%]"}`} />
+      
+          className="p-2 my-1 mx-2 w-[70%] border transition-colors text-purple-200 rounded-lg text-md text-center"
+          onClick={()=> history.push('/dextrade')}
+          >
+        DexTrade Data
       </button>
       <button
-          className="p-2 my-0 mx-2 w-[100%]">
-          <HiPlusSm className={`hover:bg-white border text-purple-600 rounded-lg text-3xl text-center mx-auto ${showSideBar ? "w-[80%]" : "w-[35%]"}`} />
+          className="p-2 my-1 mx-2 w-[70%] border transition-colors text-purple-200 rounded-lg text-md text-center"
+          onClick={()=> history.push('/documentation')}
+          >
+        Documentation Data
       </button>
       </div>
 

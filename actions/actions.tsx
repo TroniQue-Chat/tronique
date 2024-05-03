@@ -33,6 +33,23 @@ export async function generateAndRunSQL(question: string) {
   return response.data;
 }
 
+export async function generatePlotlyFigure(question: string) {
+  const response = await axios.get(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/generate_plotly_figure`, 
+    {
+      params: { question },
+      headers: 
+      {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  console.log("figure", response.data);
+
+  return response.data; 
+}
+
 export async function runSQL(sql: string) {
   const response = await axios.post(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/run_sql`,

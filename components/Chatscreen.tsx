@@ -10,6 +10,7 @@ import { v4 as uuidv4 } from "uuid";
 import MessageHistory from "./MessageHistory";
 import Homescreen from "./Homescreen";
 import {
+  PlotlyFigure,
   SQLResponse,
   TMessage,
   TQuestions,
@@ -23,14 +24,15 @@ import "../styles/chatscreen.css"
 type ChatscreenProps = {
   generateQuestions: () => Promise<AxiosResponse<any, any>>;
   generateAndRunSQL: (question: string) => Promise<RUNResponse>;
+  generatePlotlyFigure: (question: string) => Promise<PlotlyFigure>;
 };
 
 const Chatscreen: React.FC<ChatscreenProps> = ({
   generateQuestions,
-  generateAndRunSQL
+  generateAndRunSQL,
+  generatePlotlyFigure
 }: Readonly<ChatscreenProps>) => {
   const [message, setMessage] = useState<string>("");
-
   const { showSideBar, messageHistory, handleChangeMessageHistory } = useRoot();
 
   const [disabled, setDisabled] = useState(message.length === 0);
@@ -105,11 +107,35 @@ const Chatscreen: React.FC<ChatscreenProps> = ({
       }
 
       handleChangeMessageHistory(newMessage);
+
+      const plotlyRes = await generatePlotlyFigure(msg);
+      const { fig } = plotlyRes;
+      console.log(plotlyRes);
+
+      if ("error" in plotlyRes) {
+        newMessage = {
+          ai: plotlyRes?.error as string,
+          user: "",
+          messageId: uuidv4(),
+          type: MESSAGE_TYPES.error,
+        };
+      } else {
+        newMessage = {
+          ai: fig,
+          user: "",
+          messageId: uuidv4(),
+          type: MESSAGE_TYPES.plotly_figure,
+        };
+      }
+
+      handleChangeMessageHistory(newMessage); 
     } catch (error: any) {
       console.error("Failed to handle send:", error);
       // Handle the error state appropriately
     }
-  }, [message, handleChangeMessageHistory, generateAndRunSQL]); // Dependencies
+
+    // router.push('/')
+  }, [message, handleChangeMessageHistory, generateAndRunSQL, generatePlotlyFigure]); // Dependencies
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>): void => {
     if (event.key === "Enter" && !disabled) {
