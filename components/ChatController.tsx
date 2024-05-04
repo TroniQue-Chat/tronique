@@ -1,8 +1,8 @@
 "use client";
 import { useState, useEffect, useMemo, useRef, MutableRefObject } from "react";
 import Chatscreen from "@/components/Chatscreen";
-import DexTrade from "./dextrade";
-import Documentation from "./documentation";
+import DexChatscreen from "./dextrade";
+import DocChatscreen from "./documentation";
 import { Switch, Route, useHistory, useLocation } from "react-router-dom";
 import {
     generateQuestions,
@@ -27,7 +27,7 @@ const STEPS = [
   },
   {
     path: "/dexTrade",
-    component: Chatscreen,
+    component: DexChatscreen,
     hideTabs: true,
     requiredProps: [
       "generateQuestions",
@@ -37,7 +37,7 @@ const STEPS = [
   },
   {
     path: "/documentation",
-    component: Chatscreen,
+    component: DocChatscreen,
     hideTabs: true,
     requiredProps: [
       "generateQuestions",
@@ -47,8 +47,7 @@ const STEPS = [
   },
 ];
 
-function ChatController({ anchor }: any) {
-
+const ChatController = ({ anchor }: Type) => {
   return (
     <>
         <Switch>
@@ -62,6 +61,11 @@ function ChatController({ anchor }: any) {
             </Route>
           ))}
         </Switch>
+        {/* <Chatscreen 
+        generateQuestions={generateQuestions}
+        generateAndRunSQL={generateAndRunSQL}
+        generatePlotlyFigure={generatePlotlyFigure}
+        /> */}
     </>
   );
 }

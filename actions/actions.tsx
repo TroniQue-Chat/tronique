@@ -23,8 +23,7 @@ export async function generateAndRunSQL(question: string) {
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/generate_and_run_sql`,
     {
       params: { question },
-      headers:
-      {
+      headers: {
         "Content-Type": "application/json",
       },
     }
@@ -35,11 +34,10 @@ export async function generateAndRunSQL(question: string) {
 
 export async function generatePlotlyFigure(question: string) {
   const response = await axios.get(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/generate_plotly_figure`, 
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/generate_plotly_figure`,
     {
       params: { question },
-      headers: 
-      {
+      headers: {
         "Content-Type": "application/json",
       },
     }
@@ -47,7 +45,7 @@ export async function generatePlotlyFigure(question: string) {
 
   console.log("figure", response.data);
 
-  return response.data; 
+  return response.data;
 }
 
 export async function runSQL(sql: string) {

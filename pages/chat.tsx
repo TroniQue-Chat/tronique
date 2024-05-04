@@ -13,7 +13,7 @@ const Chat: React.FC = () => {
             generateQuestions={generateQuestions}
             generateAndRunSQL={generateAndRunSQL}
             generatePlotlyFigure={generatePlotlyFigure}
-          />
+      />
   )
 }
 

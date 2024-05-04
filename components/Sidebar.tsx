@@ -57,7 +57,7 @@ export default function Sidebar() {
       <div className="flex justify-center items-center flex-col">
       <button
           className="p-2 mx-auto my-1 mx-2 w-[70%] border transition-colors text-purple-200 rounded-lg text-md text-center"
-          onClick={()=> history.push('/forum')}
+          onClick={()=> history.push('/')}
           >
           
           Forum Data

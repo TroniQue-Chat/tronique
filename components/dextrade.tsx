@@ -1,9 +1,9 @@
 import React from 'react'
 
-const DexTrade: React.FC = () => {
+const DexChatscreen: React.FC = () => {
   return (
     <div>dex-trade</div>
   )
 }
 
-export default DexTrade
+export default DexChatscreen

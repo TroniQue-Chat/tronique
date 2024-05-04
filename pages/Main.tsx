@@ -16,7 +16,6 @@ function Main() {
             generateAndRunSQL={generateAndRunSQL}
             generatePlotlyFigure={generatePlotlyFigure}
           />
-        
     </>
   );
 }
