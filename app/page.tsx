@@ -1,8 +1,11 @@
+import Dashboard from "@/components/Dashboard";
 import Main from "@/pages/Main";
-export default async function Home() {
+
+function page() {
   return (
     <>
-    <Main/>
+      <Main />
     </>
   );
 }
+export default page;
