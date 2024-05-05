@@ -25,7 +25,6 @@ const Dashboard: React.FC<FunctionProps> = (props: FunctionProps) => {
         <Router basename="/">
           <Sidebar />
           <ChatController anchor={anchorRef} />
-          
         </Router>
       </main>
     </ContextProvider>
