@@ -1,8 +1,9 @@
 "use client";
 import { useRoot } from "@/context/ContextProvider";
-import React from "react";
+import React, { useState } from "react";
 import { MdOutlineMenu } from "react-icons/md";
 import { MdOutlineMenuOpen } from "react-icons/md";
+import { FaCaretRight } from "react-icons/fa";
 import { RiChatNewFill } from "react-icons/ri";
 import { HiPlusSm } from "react-icons/hi";
 import { HiCog } from "react-icons/hi";
@@ -12,6 +13,7 @@ import Image from "next/image";
 import logo from "../public/logo.png";
 import { Switch, Route, useHistory, useLocation } from "react-router-dom";
 import { useRouter } from "next/navigation";
+import { toast, Toaster } from "react-hot-toast";
 
 export default function Sidebar() {
   const history = useHistory();
@@ -19,6 +21,34 @@ export default function Sidebar() {
   const { showSideBar, handleShowSideBar } = useRoot();
   const handleShow = () => {
     handleShowSideBar(!showSideBar);
+  };
+
+  const [showDropdown, setShowDropdown] = useState(false); // State to manage dropdown visibility
+  const [selectedOption, setSelectedOption] = useState(""); // State to track selected option
+
+  // Function to toggle dropdown visibility
+  const toggleDropdown = () => {
+    setShowDropdown(!showDropdown);
+  };
+
+  // Function to handle option selection
+  const handleOptionSelect = (option: any) => {
+    setSelectedOption(option); // Update selected option state
+    toggleDropdown(); // Close dropdown
+    // Navigate to the corresponding route based on the selected option
+    switch (option) {
+      case "Forum Data":
+        history.push("/");
+        break;
+      case "DexTrade Data":
+        history.push("/dextrade");
+        break;
+      case "Documentation Data":
+        history.push("/documentation");
+        break;
+      default:
+        break;
+    }
   };
 
   return (
@@ -57,30 +87,76 @@ export default function Sidebar() {
           )}
 
           <button className="my-5">
-            <RiChatNewFill className="text-white rounded-lg text-3xl text-center" />
+            <RiChatNewFill
+              onClick={() =>
+                toast("Coming Soon 🚀", {
+                  duration: 1000,
+                })
+              }
+              className="text-white rounded-lg text-3xl text-center"
+            />
           </button>
         </div>
       </div>
 
-      <div className="flex justify-center items-center flex-col">
-        <button
-          className="p-2 my-1 mx-2 w-[70%] border transition-colors text-purple-200 rounded-lg text-md text-center"
-          onClick={() => history.push("/")}
-        >
-          Forum Data
-        </button>
-        <button
-          className="p-2 my-1 mx-2 w-[70%] border transition-colors text-purple-200 rounded-lg text-md text-center"
-          onClick={() => history.push("/dextrade")}
-        >
-          DexTrade Data
-        </button>
-        <button
-          className="p-2 my-1 mx-2 w-[70%] border transition-colors text-purple-200 rounded-lg text-md text-center"
-          onClick={() => history.push("/documentation")}
-        >
-          Documentation Data
-        </button>
+      <div
+        className={` flex flex-col mx-auto bg-[#1F1F1F] ${
+          showSideBar ? "w-[200px]" : "w-10"
+        }`}
+      >
+        <div className="relative inline-block text-left">
+          <div>
+            <button
+              type="button"
+              className=" flex items-center justify-center w-full rounded-md border text-white border-gray-300 bg-[#1F1F1F] px-4 py-2 text-sm font-medium hover:bg-[#bababa] hover:text-black focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+              onClick={toggleDropdown}
+              aria-expanded={showDropdown ? "true" : "false"}
+              aria-haspopup="true"
+            >
+              {showSideBar && (selectedOption || "Select Option")}{" "}
+              <FaCaretRight className={`${showSideBar && "ml-3"}`} />
+            </button>
+          </div>
+
+          {showDropdown && (
+            <div
+              className="origin-top-right relative right-0 mt-2 w-[200px] rounded-md shadow-lg bg-[#d2d0d0] ring-1 ring-black ring-opacity-5 focus:outline-none z-20"
+              role="menu"
+              aria-orientation="vertical"
+              aria-labelledby="options-menu"
+            >
+              <div className="py-1" role="none">
+                {/* Options */}
+                <button
+                  onClick={() => handleOptionSelect("Forum Data")}
+                  className="block w-full px-4 py-2 text-sm text-black hover:bg-gray-100 hover:text-gray-900"
+                  role="menuitem"
+                >
+                  Forum Data
+                </button>
+                <button
+                  onClick={() => handleOptionSelect("DexTrade Data")}
+                  className="block w-full px-4 py-2 text-sm text-black hover:bg-gray-100 hover:text-gray-900"
+                  role="menuitem"
+                >
+                  DexTrade Data
+                </button>
+                <button
+                  // onClick={() => handleOptionSelect("Documentation Data")}
+                  onClick={() =>
+                    toast("Coming Soon 🚀", {
+                      duration: 1000,
+                    })
+                  }
+                  className="block w-full px-4 py-2 text-sm text-black hover:bg-gray-100 hover:text-gray-900"
+                  role="menuitem"
+                >
+                  Documentation Data
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
 
       <div
@@ -91,13 +167,32 @@ export default function Sidebar() {
         }`}
       >
         <button className=" mx-3 my-3">
-          <HiCog className=" text-white text-3xl" />
+          <HiCog
+            className=" text-white text-3xl"
+            onClick={() =>
+              toast("Coming Soon 🚀", {
+                duration: 1000,
+              })
+            }
+          />
         </button>
         <button className="mx-3 my-3">
           <FaClockRotateLeft className=" text-white text-lg" />
         </button>
         <Image src={icon} alt="icon" className="w-6 mx-3 my-3"></Image>
       </div>
+      <Toaster
+        toastOptions={{
+          style: {
+            fontSize: "14px",
+            backgroundColor: "#d2d0d0",
+            color: "#000",
+            boxShadow: "none",
+            borderRadius: "50px",
+            padding: "3px 5px",
+          },
+        }}
+      />
     </div>
   );
 }
