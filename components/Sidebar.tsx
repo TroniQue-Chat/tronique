@@ -143,11 +143,12 @@ export default function Sidebar() {
                 </button>
                 <button
                   // onClick={() => handleOptionSelect("Documentation Data")}
-                  onClick={() =>
+                  onClick={() => {
                     toast("Coming Soon 🚀", {
                       duration: 1000,
-                    })
-                  }
+                    });
+                    toggleDropdown();
+                  }}
                   className="block w-full px-4 py-2 text-sm text-black hover:bg-gray-100 hover:text-gray-900"
                   role="menuitem"
                 >
