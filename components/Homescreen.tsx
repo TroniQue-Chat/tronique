@@ -15,10 +15,10 @@ const Homescreen = (props: HomescreenProps) => {
   const { questions, generateAndRunSQLForum, loading } = props;
 
   const fixedQuestions = [
-    "How many views did the JustMoney project receive in each season?",
-    "Which are the trending projects in season 5?",
-    "List all users who have posted more than 10 times on a single topic in season 5.",
-    "Top 10 users who have engaged the most in season 4.",
+    "How many views did the Samhita DAO project receive in each season?",
+    "How many views did the Samhita DAO project receive in each season?",
+    "How many views did the Samhita DAO project receive in each season?",
+    "How many views did the Samhita DAO project receive in each season?",
   ];
 
   const { handleChangeMessageHistory } = useRoot();
