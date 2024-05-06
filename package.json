@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "next-dev": "next dev",
-    "flask-dev": "python3 -m flask --app api/index run -p 3000",
+    "flask-dev": "python3 -m flask --app api/index run -p 5328",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",

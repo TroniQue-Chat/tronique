@@ -15,9 +15,9 @@ const DexTradeHomescreen = (props: HomescreenProps) => {
   const { questions, generateAndRunSQLTrades, loading } = props;
 
   const fixedQuestions = [
-    "What are the daily total trades?",
-    "What are the daily total trades?",
-    "What are the daily total trades?",
+    "What are the month wise total unique transactions?",
+    "What are percentage of total unique transactions for 10 smart contract?",
+    "Give the hourly total unique transactions of April based on block time.",
     "What are the daily total trades?",
   ];
 
